@@ -14,4 +14,9 @@ class Writer implements WriterInterface
         }
         fclose($handler);
     }
+
+    public function zip(): void
+    {
+        exec('zip -r output/source' . time() .'.zip *.php');
+    }
 }

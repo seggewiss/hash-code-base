@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
 include __DIR__ . '/ProcessorInterface.php';
-//include __DIR__ . '/InputData.php';
 
 class Processor implements ProcessorInterface
 {
