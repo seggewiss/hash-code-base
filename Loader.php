@@ -5,10 +5,26 @@ include __DIR__ . '/InputData.php';
 
 class Loader implements DataLoaderInterface
 {
-    public const EXAMPLE_FILE = __DIR__ . '/src/a_example.in';
-    public const SMALL_FILE = __DIR__ . '/src/b_small.in';
-    public const MEDIUM_FILE = __DIR__ . '/src/c_medium.in';
-    public const BIG_FILE = __DIR__ . '/src/d_big.in';
+    public function getFilesToProcess(): array
+    {
+        $filesInDirectory = scandir(__DIR__ . '/src', SCANDIR_SORT_ASCENDING);
+        $filesToProcess = [];
+
+        foreach($filesInDirectory as $file) {
+            if (strpos($file,'.in') !== false) {
+                $filesToProcess[] = $file;
+            }
+        }
+
+        return $filesToProcess;
+    }
+    public function printFilesToProcess(array $files): void
+    {
+        for($i=0, $count = count($files); $i < $count; $i++){
+            echo $i . ' ' . $files[$i] . PHP_EOL;
+        }
+        echo '"a" for all files' . PHP_EOL;
+    }
 
     public function load(string $file): InputData
     {
@@ -18,12 +34,12 @@ class Loader implements DataLoaderInterface
 
         $name = $this->stripNameFromPath($file);
 
-        $hanlder = fopen($file, 'r');
+        $handler = fopen($file, 'r');
 
-        $config = $this->getConfigFromFile($hanlder);
-        $data = $this->getDataFromFile($hanlder);
+        $config = $this->getConfigFromFile($handler);
+        $data = $this->getDataFromFile($handler);
 
-        fclose($hanlder);
+        fclose($handler);
 
         return new InputData($config, $data, $name);
     }
