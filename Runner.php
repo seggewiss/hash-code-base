@@ -2,9 +2,9 @@
 
 const INPUT_FILE_PREFIX = __DIR__ . '/src/';
 
-include __DIR__ . '/Loader.php';
-include __DIR__ . '/Processor.php';
-include __DIR__ . '/Writer.php';
+include __DIR__ . '/Loader/Loader.php';
+include __DIR__ . '/Processor/Processor.php';
+include __DIR__ . '/Writer/Writer.php';
 
 $loader = new Loader();
 $processor = new Processor();

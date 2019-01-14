@@ -4,7 +4,7 @@ include __DIR__ . '/WriterInterface.php';
 
 class Writer implements WriterInterface
 {
-    private const OUTPUT_PATH = __DIR__ . '/output';
+    private const OUTPUT_PATH = __DIR__ . '/../output';
 
     public function write(array $data, string $name): void
     {
@@ -12,7 +12,7 @@ class Writer implements WriterInterface
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
 
-        $handler = fopen(__DIR__  . '/output/' . $name . time() . '.out', 'w');
+        $handler = fopen(__DIR__  . '/../output/' . $name . time() . '.out', 'w');
         foreach($data as $row){
             fwrite($handler,implode(' ', $row) . PHP_EOL);
         }
@@ -21,6 +21,6 @@ class Writer implements WriterInterface
 
     public function zip(): void
     {
-        exec('zip -r output/source' . time() .'.zip *.php');
+        exec('zip -r output/source' . time() .'.zip *.php Loader/*.php Processor/*.php Writer/*.php');
     }
 }
