@@ -7,7 +7,7 @@ class Loader implements DataLoaderInterface
 {
     public function getFilesToProcess(): array
     {
-        $filesInDirectory = scandir(__DIR__ . '/src', SCANDIR_SORT_ASCENDING);
+        $filesInDirectory = scandir(__DIR__ . '/../src', SCANDIR_SORT_ASCENDING);
         $filesToProcess = [];
 
         foreach($filesInDirectory as $file) {
