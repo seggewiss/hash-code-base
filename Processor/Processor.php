@@ -9,37 +9,32 @@ class Processor implements ProcessorInterface
         0 => [0]
     ];
 
-    public function process(InputData $data): array
+    public function process(InputData $inputObject): array
     {
-        // TODO: Magic
-        $maxRows = $data->getConfig()[0];
-        $maxColumns = $data->getConfig()[1];
-        $minIngredients = $data->getConfig()[2];
-        $maxCellsProSlice = $data->getConfig()[3];
+        $data = $inputObject->getData();
+        $slides = [];
+        $slideIndex = 0;
+        $lastVIndex = -1;
 
-        $currentStartX = 0;
-        $currentStartY = 0;
+        for($i=0, $max = count($data); $i < $max; $i++) {
+            if ($data[$i]['type'] === 'H') {
+                $slides[$slideIndex][] = $data[$i];
+                $slideIndex++;
+                continue;
+            }
 
-        $currentEndX = 0;
-        $currentEndY = 0;
+            if ($lastVIndex === -1) {
+                $slides[$slideIndex] = [];
+                $slides[$slideIndex][] = $data[$i];
 
-        $this->data = $data->getData();
-
-        $this->deleteSlices(0, 0, 1, 1);
-
-        return $this->outputData;
-    }
-
-    private function deleteSlices(int $startX, int $startY, int $endX, int $endY): void
-    {
-        for($row = $startX; $row <= $endX; $row++)
-        {
-            for($col = $startY; $col <= $endY; $col++)
-            {
-                $this->data[$row][$col] = 'X';
+                $lastVIndex = $slideIndex;
+                $slideIndex++;
+            } else {
+                $slides[$lastVIndex][] = $data[$i];
+                $lastVIndex = -1;
             }
         }
-        $this->outputData[] = [$startX, $startY, $endX, $endY];
-        $this->outputData[0][0]++;
+
+        return $slides;
     }
 }
