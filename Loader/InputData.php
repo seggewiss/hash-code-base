@@ -3,7 +3,7 @@
 class InputData
 {
     /**
-     * @var string
+     * @var array
      */
     private $config;
 
@@ -17,7 +17,7 @@ class InputData
      */
     private $name;
 
-    public function __construct(string $config, array $data, string $name)
+    public function __construct(array $config, array $data, string $name)
     {
         $this->config = $config;
         $this->data = $data;
