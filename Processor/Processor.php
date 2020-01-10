@@ -9,8 +9,12 @@ class Processor implements ProcessorInterface
         $currentSlice = 0;
         $maxSlices = $inputObject->getConfig()[0];
 
+        $flippedData = array_flip($inputObject->getData());
+        krsort($flippedData);
+        $sortedData = array_flip($flippedData);
+
         $pizzen = [];
-        foreach ($inputObject->getData() as $key => $pizza) {
+        foreach ($sortedData as $key => $pizza) {
             $pizza = (int) $pizza;
             if (($currentSlice + $pizza) < $maxSlices) {
                 $currentSlice += $pizza;
