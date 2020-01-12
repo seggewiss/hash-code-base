@@ -11,13 +11,14 @@ class Loader implements DataLoaderInterface
         $filesToProcess = [];
 
         foreach($filesInDirectory as $file) {
-            if (strpos($file,'.txt') !== false) {
+            if (strpos($file,'.in') !== false) {
                 $filesToProcess[] = $file;
             }
         }
 
         return $filesToProcess;
     }
+
     public function printFilesToProcess(array $files): void
     {
         for($i=0, $count = count($files); $i < $count; $i++){
@@ -44,31 +45,21 @@ class Loader implements DataLoaderInterface
         return new InputData($config, $data, $name);
     }
 
-    private function getConfigFromFile($handler): string
+    private function getConfigFromFile($handler): array
     {
         $rawConfig = fgets($handler);
-        return $rawConfig;
+
+        return explode(' ', $rawConfig);
     }
 
     private function getDataFromFile($handler): array
     {
-        $rawData = [];
-
+        $data = [];
         while(($line = fgets($handler)) !== false) {
-            $rawData[] = explode(' ', $line);
-        }
-        
-        $processedData = [];
-        foreach($rawData as $id => $picture) {
-            $processedData[] = [
-                'id' => $id,
-                'type' => array_shift($picture),
-                'tagCount' => array_shift($picture),
-                'tags' => $picture,
-            ];
+            $data = explode(' ', $line);
         }
 
-        return $processedData;
+        return $data;
     }
 
     private function stripNameFromPath(string $path): string

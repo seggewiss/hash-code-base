@@ -14,13 +14,9 @@ class Writer implements WriterInterface
 
         $handler = fopen(__DIR__  . '/../output/' . $name . time() . '.out', 'w');
         fwrite($handler, count($data) . PHP_EOL);
-        foreach($data as $slide){
 
-            foreach($slide as $picture) {
-                fwrite($handler, $picture['id'].' ');
-            }
-
-            fwrite($handler, PHP_EOL);
+        foreach($data as $pizza){
+            fwrite($handler, $pizza . ' ');
         }
         fclose($handler);
     }
